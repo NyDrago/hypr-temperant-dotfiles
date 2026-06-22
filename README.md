@@ -1,3 +1,7 @@
+
+
+https://github.com/user-attachments/assets/9732b777-c796-43e8-b334-84e32119d0cf
+
 # hypr-temperant-dotfiles
 
 my dotfiles i use that i made and am posting bc i need to contribute more
