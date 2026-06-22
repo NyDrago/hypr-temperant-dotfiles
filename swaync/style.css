@@ -1,0 +1,26 @@
+.notification {
+    background: #3d3831;
+    border: 1px solid #585b70;
+    border-radius: 10px;
+    padding: 5px;
+    min-height: 40px;
+    }
+
+
+
+.notification-icon {
+    min-width: 32px;
+    min-height: 32px;
+    margin-right: 8px;
+}
+
+
+.notification-content {
+    font-size: 8pt;   
+    padding: 0px;
+}
+
+.summary {
+    font-size: 9pt;
+    font-weight: bold;
+}

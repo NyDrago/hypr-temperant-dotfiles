@@ -1,0 +1,100 @@
+;; =========================================================================
+;; MEDIA LISTENERS & POLLS
+;; =========================================================================
+;; made by temperance
+(deflisten music_title :initial ""
+  `playerctl --follow metadata --format '{{title}}' 2>/dev/null || echo "Nothing Playing"`)
+
+(deflisten music_artist :initial ""
+  `playerctl --follow metadata --format '{{artist}}' 2>/dev/null || echo ""`)
+
+(deflisten music_status :initial "Stopped"
+  `playerctl --follow status 2>/dev/null || echo "Stopped"`)
+
+;; Fetches the local file path for the album artwork
+(defpoll music_cover :interval "2s"
+  `playerctl metadata mpris:artUrl 2>/dev/null | sed 's/file:\\/\\///' || echo ""`)
+
+;; Calls our external shell helper script to entirely bypass the colon/parser bug
+(defpoll music_time :interval "1s"
+  `~/.config/eww/scripts/get_time.sh`)
+
+;; =========================================================================
+;; WINDOW DEFINITIONS
+;; =========================================================================
+
+;; Top Application Menu
+(defwindow tux-menu
+  :monitor 0
+  :geometry (geometry :x "0px"
+                      :y "5px"
+                      :width "220px"
+                      :height "170px"
+                      :anchor "top center")
+  :stacking "fg"
+  :exclusive false
+  
+  (box :class "menu-container" 
+       :orientation "v" 
+       :space-evenly false
+       
+    ;; App Launchers Group
+    (box :orientation "v" :space-evenly true :class "apps-section"
+      (button :class "menu-item" :onclick "eww close tux-menu && heroic &" 
+        (box :orientation "h" :space-evenly false :halign "start" 
+          (label :class "icon" :text "󰊗 ") (label :text "Heroic Launcher")))
+        
+      (button :class "menu-item" :onclick "eww close tux-menu && steam &" 
+        (box :orientation "h" :space-evenly false :halign "start" 
+          (label :class "icon" :text "󰓓 ") (label :text "Steam")))
+        
+      (button :class "menu-item" :onclick "eww close tux-menu && _JAVA_AWT_WM_NONREPARENTING=1 ~/.tlauncher/starter/jre_default/jre-21.0.11-linux-x64/bin/java -jar ~/.tlauncher/starter/cache/https_repo.tlauncher.org/update/lch/starter-core-1.268-v3.jar &" 
+        (box :orientation "h" :space-evenly false :halign "start" 
+          (label :class "icon" :text "󰆼 ") (label :text "Minecraft")))
+    )
+    
+    ;; Power Row: Centered, small, and closely spaced
+    (box :orientation "h" :space-evenly false :halign "center" :spacing 20 :class "power-row"
+      (button :class "power-btn shutdown" :onclick "poweroff" (label :text "󰐥"))
+      (button :class "power-btn reboot" :onclick "reboot" (label :text "󰜉"))
+      (button :class "power-btn suspend" :onclick "systemctl suspend" (label :text "󰤄"))
+    )
+  )
+)
+
+;; Bottom Media HUD Window (Positioned exactly at y: 5px)
+(defwindow desktop-media-hud
+  :monitor 0
+  :geometry (geometry :x "0px"
+                      :y "5px"           
+                      :width "420px"
+                      :height "65px"
+                      :anchor "bottom center")
+  :stacking "fg"                         
+  :focusable false
+  :exclusive false                       
+  (media-layout))
+
+;; =========================================================================
+;; WIDGET LAYOUTS
+;; =========================================================================
+
+(defwidget media-layout []
+  (box :class "media-hud-container" :orientation "h" :space-evenly false
+    ;; Left Side: Music Icon Accent with Cover Background
+    (box :class "media-icon-box" :style "background-image: url('${music_cover}');" :width 45 :height 45
+      (label :text "" :class "music-icon" :halign "center" :valign "center"))
+    
+    ;; Middle: Text track details + Live Center Timestamp
+    (box :class "media-info-box" :orientation "v" :space-evenly false :hexpand true
+      (label :text music_title :class "track-title" :limit-width 24 :halign "start")
+      (label :text music_artist :class "track-artist" :limit-width 30 :halign "start")
+      (label :text music_time :class "track-time" :halign "start"))
+    
+    ;; Right Side: Clean Control Buttons (White blocks stripped)
+    (box :class "media-controls" :orientation "h" :space-evenly true
+      (button :class "control-btn" :onclick "playerctl previous" "󰒮")
+      (button :class "control-btn play-pause" 
+              :onclick "playerctl play-pause" 
+              {music_status == "Playing" ? "󰏤" : "󰐊"})
+      (button :class "control-btn" :onclick "playerctl next" "󰒭"))))
