@@ -1,6 +1,6 @@
 # hypr-temperant-dotfiles
 
-An automated collection of high-performance Linux configuration files.
+my dotfiles i use that i made and am posting bc i need to contribute more
 
 ## Components
 * **Widgets/Bar:** Eww
