@@ -38,7 +38,7 @@
        :orientation "v" 
        :space-evenly false
        
-    ;; App Launchers Group
+    ;; App Launchers Group (edit as you wish)
     (box :orientation "v" :space-evenly true :class "apps-section"
       (button :class "menu-item" :onclick "eww close tux-menu && heroic &" 
         (box :orientation "h" :space-evenly false :halign "start" 
@@ -47,10 +47,6 @@
       (button :class "menu-item" :onclick "eww close tux-menu && steam &" 
         (box :orientation "h" :space-evenly false :halign "start" 
           (label :class "icon" :text "󰓓 ") (label :text "Steam")))
-        
-      (button :class "menu-item" :onclick "eww close tux-menu && _JAVA_AWT_WM_NONREPARENTING=1 ~/.tlauncher/starter/jre_default/jre-21.0.11-linux-x64/bin/java -jar ~/.tlauncher/starter/cache/https_repo.tlauncher.org/update/lch/starter-core-1.268-v3.jar &" 
-        (box :orientation "h" :space-evenly false :halign "start" 
-          (label :class "icon" :text "󰆼 ") (label :text "Minecraft")))
     )
     
     ;; Power Row: Centered, small, and closely spaced
