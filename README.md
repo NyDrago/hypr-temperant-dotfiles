@@ -10,7 +10,7 @@ my dotfiles i use that i made and am posting bc i need to contribute more
 * **Custom Scripts:** Included for system notifications and automation (they come in the install.sh just run that in your terminal)
 
 NOTE: make sure to have swaync and ~/.config/hypr/scripts/media-notifier.sh as exec-once/startup in your hyprland conf
-
+AND edit .config/eww/eww.yuck to your specefic apps
 and if you want to be able to manually open the media player put ~/.config/hypr/scripts/media-notifier.sh
 as a bind
 
